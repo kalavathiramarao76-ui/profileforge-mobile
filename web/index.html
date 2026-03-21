@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="ProfileForge AI - LinkedIn Profile Optimizer">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="ProfileForge AI">
+  <link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ProfileForge AI</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0F0F1A;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+    }
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: white;
+    }
+    .loading h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .loading p {
+      font-size: 14px;
+      opacity: 0.6;
+    }
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(83, 109, 254, 0.2);
+      border-top-color: #536DFE;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 24px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <h1>ProfileForge AI</h1>
+    <p>Loading...</p>
+  </div>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
