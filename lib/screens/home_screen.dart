@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../widgets/gradient_background.dart';
 import '../widgets/tool_card.dart';
+import '../widgets/auth_wall.dart';
+import '../services/auth_service.dart';
 import 'analyze_screen.dart';
 import 'headlines_screen.dart';
 import 'summary_screen.dart';
@@ -17,6 +19,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  final AuthService _authService = AuthService();
+  bool _showAuthWall = false;
 
   final _screens = const [
     _Dashboard(),
@@ -26,12 +30,36 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _checkAuth();
+  }
+
+  Future<void> _checkAuth() async {
+    final needsAuth = await _authService.needsAuth();
+    if (mounted) setState(() => _showAuthWall = needsAuth);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: Stack(
+        children: [
+          _screens[_currentIndex],
+          if (_showAuthWall)
+            AuthWall(
+              authService: _authService,
+              onSignedIn: () => setState(() => _showAuthWall = false),
+            ),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
+        onTap: (i) async {
+          await _authService.incrementUsage();
+          await _checkAuth();
+          if (!_showAuthWall) setState(() => _currentIndex = i);
+        },
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard_rounded),
